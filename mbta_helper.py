@@ -52,10 +52,11 @@ def get_nearest_station(latitude, longitude):
     url = '{}?api_key={}&filter[latitude]={}&filter[longitude]={}&sort=distance'.format(MBTA_BASE_URL, MBTA_API_KEY,
                                                                                         latitude, longitude)
     response_data=get_json(url)
-    result=response_data
+    # print(response_data)
+    result=response_data['data'][0]['attributes']['name'], response_data['data'][0]['attributes']['wheelchair_boarding']
     return result
 
-print(get_nearest_station(get_lat_long('BabsonCollege,MA')))
+# print(get_nearest_station(*get_lat_long('Boston+Common,MA')))
 
 
 
@@ -63,7 +64,8 @@ def find_stop_near(place_name):
     """
     Given a place name or address, return the nearest MBTA stop and whether it is wheelchair accessible.
     """
-    pass
+    stop = get_nearest_station(*get_lat_long(place_name))
+    return stop
 
 
 def main():
